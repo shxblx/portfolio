@@ -17,7 +17,7 @@ import { getGeminiResponse } from "@/lib/gemini-api";
 import { useTheme } from "next-themes";
 
 const INITIAL_MESSAGE =
-  "Hi there! I'm Buddy, Shibli's AI assistant. How can I help you today? You can ask me about his skills, projects, experience, or anything else about his professional background.";
+  "Hi there! I'm ShibliBot, Shibli's AI assistant. How can I help you today? You can ask me about his skills, projects, experience, or anything else about his professional background.";
 
 type Message = {
   id: string;
@@ -37,6 +37,8 @@ export default function Chatbot() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatContentRef = useRef<HTMLDivElement>(null);
   const { theme } = useTheme();
+
+  const isBotTyping = messages.some((msg) => msg.isTyping);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -132,7 +134,7 @@ export default function Chatbot() {
   const handleSendMessage = async (e?: React.FormEvent) => {
     e?.preventDefault();
 
-    if (!input.trim()) return;
+    if (!input.trim() || isLoading || isBotTyping) return;
 
     addNewMessage(input, "user");
     const currentInput = input;
@@ -299,12 +301,12 @@ export default function Chatbot() {
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     className="flex-1 bg-background"
-                    disabled={isLoading}
+                    disabled={isLoading || isBotTyping}
                   />
                   <Button
                     type="submit"
                     size="icon"
-                    disabled={isLoading || !input.trim()}
+                    disabled={isLoading || isBotTyping || !input.trim()}
                   >
                     <SendIcon className="h-4 w-4" />
                   </Button>
