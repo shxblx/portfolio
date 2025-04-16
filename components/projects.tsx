@@ -257,7 +257,9 @@ export default function Projects() {
                       variant="ghost"
                       className="w-full text-muted-foreground hover:text-primary"
                       onClick={() =>
-                        alert("Contact Shibli for a demo of this project")
+                        document
+                          .getElementById("contact")
+                          ?.scrollIntoView({ behavior: "smooth" })
                       }
                     >
                       🔒 Confidential - Contact for Demo
