@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { getGeminiResponse } from "@/lib/gemini-api";
+import { useTheme } from "next-themes";
 
 // Initial bot messages
 const INITIAL_MESSAGE =
@@ -39,6 +40,7 @@ export default function Chatbot() {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const { theme } = useTheme();
 
   useEffect(() => {
     scrollToBottom();
@@ -85,7 +87,7 @@ export default function Chatbot() {
     <>
       {/* Chat toggle button */}
       <motion.button
-        className="fixed bottom-6 right-6 bg-primary text-white p-4 rounded-full shadow-lg hover:shadow-xl z-50"
+        className="fixed bottom-6 right-6 bg-primary text-primary-foreground p-4 rounded-full shadow-lg hover:shadow-xl z-50"
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
         onClick={() => setIsOpen(true)}
