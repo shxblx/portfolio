@@ -16,38 +16,117 @@ import { cn } from "@/lib/utils";
 import { getGeminiResponse } from "@/lib/gemini-api";
 import { useTheme } from "next-themes";
 
-// Initial bot messages
 const INITIAL_MESSAGE =
-  "Hi there! I'm Shibli's AI assistant. How can I help you today? You can ask me about his skills, projects, experience, or anything else about his professional background.";
+  "Hi there! I'm Buddy, Shibli's AI assistant. How can I help you today? You can ask me about his skills, projects, experience, or anything else about his professional background.";
 
 type Message = {
   id: string;
   text: string;
   sender: "user" | "bot";
   timestamp: Date;
+  isTyping?: boolean;
+  fullText?: string;
 };
 
 export default function Chatbot() {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: "welcome",
-      text: INITIAL_MESSAGE,
-      sender: "bot",
-      timestamp: new Date(),
-    },
-  ]);
+  const [isInitialPopupOpen, setIsInitialPopupOpen] = useState(true);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const chatContentRef = useRef<HTMLDivElement>(null);
   const { theme } = useTheme();
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      addNewMessage(INITIAL_MESSAGE, "bot");
+    }, 1500);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        isOpen &&
+        chatContentRef.current &&
+        !chatContentRef.current.contains(event.target as Node) &&
+        !(event.target as Element).closest('[data-chat-toggle="true"]')
+      ) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen]);
+
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const simulateTyping = (text: string, messageId: string) => {
+    const typingSpeed = 25;
+    let i = 0;
+    const typingInterval = setInterval(() => {
+      if (i <= text.length) {
+        setMessages((messages) =>
+          messages.map((msg) =>
+            msg.id === messageId
+              ? {
+                  ...msg,
+                  text: text.substring(0, i),
+                  isTyping: i < text.length,
+                }
+              : msg
+          )
+        );
+        i++;
+      } else {
+        clearInterval(typingInterval);
+      }
+    }, typingSpeed);
+
+    return () => clearInterval(typingInterval);
+  };
+
+  const addNewMessage = (text: string, sender: "user" | "bot") => {
+    const newMessageId = Date.now().toString();
+
+    if (sender === "bot") {
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: newMessageId,
+          text: "",
+          fullText: text,
+          sender,
+          timestamp: new Date(),
+          isTyping: true,
+        },
+      ]);
+
+      simulateTyping(text, newMessageId);
+    } else {
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: newMessageId,
+          text,
+          sender,
+          timestamp: new Date(),
+        },
+      ]);
+    }
+
+    return newMessageId;
   };
 
   const handleSendMessage = async (e?: React.FormEvent) => {
@@ -55,47 +134,79 @@ export default function Chatbot() {
 
     if (!input.trim()) return;
 
-    const userMessage: Message = {
-      id: Date.now().toString(),
-      text: input,
-      sender: "user",
-      timestamp: new Date(),
-    };
-
-    setMessages((prev) => [...prev, userMessage]);
+    addNewMessage(input, "user");
+    const currentInput = input;
     setInput("");
     setIsLoading(true);
 
-    // Get chat history for context (last few messages)
-    const chatHistory = messages.slice(-5);
+    const chatHistory = messages.slice(-5).map((msg) => ({
+      text: msg.fullText || msg.text,
+      sender: msg.sender,
+    }));
 
-    // Call Gemini AI
-    const response = await getGeminiResponse(input, chatHistory);
+    try {
+      const response = await getGeminiResponse(currentInput, chatHistory);
+      addNewMessage(response.text, "bot");
+    } catch (error) {
+      addNewMessage(
+        "Sorry, I couldn't process your request. Please try again.",
+        "bot"
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-    const botMessage: Message = {
-      id: (Date.now() + 1).toString(),
-      text: response.text,
-      sender: "bot",
-      timestamp: new Date(),
-    };
-
-    setMessages((prev) => [...prev, botMessage]);
-    setIsLoading(false);
+  const closeInitialPopup = () => {
+    setIsInitialPopupOpen(false);
   };
 
   return (
     <>
-      {/* Chat toggle button */}
+      <AnimatePresence>
+        {isInitialPopupOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 50 }}
+            className="fixed bottom-24 right-6 max-w-xs bg-card rounded-lg shadow-lg border border-primary/20 p-4 z-40"
+          >
+            <Button
+              variant="ghost"
+              size="icon"
+              className="absolute top-2 right-2 h-6 w-6"
+              onClick={closeInitialPopup}
+            >
+              <XIcon className="h-3 w-3" />
+            </Button>
+            <p className="text-sm">
+              Hi there! 👋 I'm ShibliBot, Muhammed Shibli's AI assistant. Chat
+              with me to learn more about his skills and experience!
+            </p>
+            <Button
+              className="w-full mt-3"
+              size="sm"
+              onClick={() => {
+                setIsOpen(true);
+                closeInitialPopup();
+              }}
+            >
+              Start chatting
+            </Button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <motion.button
         className="fixed bottom-6 right-6 bg-primary text-primary-foreground p-4 rounded-full shadow-lg hover:shadow-xl z-50"
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
         onClick={() => setIsOpen(true)}
+        data-chat-toggle="true"
       >
         <MessageSquareIcon className="h-6 w-6" />
       </motion.button>
 
-      {/* Chat window */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -103,13 +214,14 @@ export default function Chatbot() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 50, scale: 0.9 }}
             className="fixed bottom-6 right-6 w-80 md:w-96 z-50"
+            ref={chatContentRef}
           >
             <Card className="shadow-xl border-primary/20 overflow-hidden h-[500px] flex flex-col">
               <CardHeader className="bg-primary/10 py-3">
                 <div className="flex items-center justify-between">
                   <CardTitle className="text-md font-medium flex items-center gap-2">
                     <MessageSquareIcon className="h-5 w-5 text-primary" />
-                    Chat with Shibli's Assistant
+                    Chat with ShibliBot
                   </CardTitle>
                   <Button
                     variant="ghost"
@@ -134,7 +246,12 @@ export default function Chatbot() {
                           : "bg-muted self-start"
                       )}
                     >
-                      <p className="text-sm">{message.text}</p>
+                      <p className="text-sm break-words">
+                        {message.text}
+                        {message.isTyping && (
+                          <span className="inline-block animate-pulse">▌</span>
+                        )}
+                      </p>
                       <span
                         className={cn(
                           "text-xs mt-1",
