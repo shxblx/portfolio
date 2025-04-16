@@ -36,7 +36,7 @@ export default function Hero() {
   return (
     <section
       ref={ref}
-      className="flex flex-col-reverse md:flex-row items-center justify-between min-h-screen pt-16 pb-8 px-4 md:px-8 lg:px-16 gap-4"
+      className="flex flex-col-reverse md:flex-row items-center justify-between min-h-screen pt-16 pb-8 px-4 md:px-8 lg:px-16 gap-2 md:gap-4"
     >
       <motion.div
         className="md:w-1/2 flex justify-center order-2 md:order-1"
@@ -44,7 +44,7 @@ export default function Hero() {
         animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
         transition={{ duration: 0.8, delay: 0.3 }}
       >
-        <div className="relative w-96 h-[32rem] md:w-[40rem] md:h-[48rem]">
+        <div className="relative w-72 h-[24rem] md:w-[40rem] md:h-[48rem]">
           <Image
             src="/me.png"
             alt="Muhammed Shibli A C"
@@ -56,7 +56,7 @@ export default function Hero() {
       </motion.div>
 
       <motion.div
-        className="md:w-1/2 space-y-4 order-1 md:order-2"
+        className="md:w-1/2 space-y-4 order-1 md:order-2 text-center md:text-left"
         initial={{ opacity: 0, x: 50 }}
         animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 50 }}
         transition={{ duration: 0.8 }}
@@ -67,63 +67,64 @@ export default function Hero() {
         <h2 className="text-xl md:text-3xl font-medium text-blue-400">
           Full Stack Developer
         </h2>
-        <p className="text-lg md:text-xl text-muted-foreground">
+        <p className="text-lg md:text-xl text-muted-foreground px-4 md:px-0">
           Crafting fast, responsive, and interactive web experiences.
         </p>
-
-        <motion.div whileTap={{ scale: 0.95 }}>
-          <Button
-            onClick={handleDownload}
-            className="w-40 h-10 relative overflow-hidden"
-            variant="default"
-            disabled={isDownloading || downloadComplete}
-          >
-            <AnimatePresence mode="wait">
-              {downloadComplete ? (
-                <motion.div
-                  key="complete"
-                  initial={{ scale: 0, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  exit={{ scale: 0, opacity: 0 }}
-                  className="flex items-center gap-2"
-                >
-                  <CheckIcon className="h-5 w-5" />
-                </motion.div>
-              ) : isDownloading ? (
-                <motion.div
-                  key="loading"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  className="flex gap-1"
-                >
-                  {[0, 1, 2].map((i) => (
-                    <motion.span
-                      key={i}
-                      className="w-1 h-1 bg-current rounded-full"
-                      animate={{ opacity: [0.3, 1] }}
-                      transition={{
-                        duration: 0.6,
-                        repeat: Infinity,
-                        delay: i * 0.2,
-                      }}
-                    />
-                  ))}
-                </motion.div>
-              ) : (
-                <motion.div
-                  key="download"
-                  initial={{ opacity: 1 }}
-                  exit={{ opacity: 0, y: 20 }}
-                  className="flex items-center gap-2"
-                >
-                  <DownloadIcon className="h-5 w-5" />
-                  <span>Download CV</span>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </Button>
-        </motion.div>
+        <div className="flex justify-center md:justify-start">
+          <motion.div whileTap={{ scale: 0.95 }}>
+            <Button
+              onClick={handleDownload}
+              className="w-40 h-10 relative overflow-hidden"
+              variant="default"
+              disabled={isDownloading || downloadComplete}
+            >
+              <AnimatePresence mode="wait">
+                {downloadComplete ? (
+                  <motion.div
+                    key="complete"
+                    initial={{ scale: 0, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    exit={{ scale: 0, opacity: 0 }}
+                    className="flex items-center gap-2"
+                  >
+                    <CheckIcon className="h-5 w-5" />
+                  </motion.div>
+                ) : isDownloading ? (
+                  <motion.div
+                    key="loading"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="flex gap-1"
+                  >
+                    {[0, 1, 2].map((i) => (
+                      <motion.span
+                        key={i}
+                        className="w-1 h-1 bg-current rounded-full"
+                        animate={{ opacity: [0.3, 1] }}
+                        transition={{
+                          duration: 0.6,
+                          repeat: Infinity,
+                          delay: i * 0.2,
+                        }}
+                      />
+                    ))}
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key="download"
+                    initial={{ opacity: 1 }}
+                    exit={{ opacity: 0, y: 20 }}
+                    className="flex items-center gap-2"
+                  >
+                    <DownloadIcon className="h-5 w-5" />
+                    <span>Download CV</span>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </Button>
+          </motion.div>
+        </div>
       </motion.div>
     </section>
   );
