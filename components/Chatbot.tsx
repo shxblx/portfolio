@@ -17,7 +17,7 @@ import { getGeminiResponse } from "@/lib/gemini-api";
 import { useTheme } from "next-themes";
 
 const INITIAL_MESSAGE =
-  "Hi there! I'm ShibliBot, Shibli's AI assistant. How can I help you today? You can ask me about his skills, projects, experience, or anything else about his professional background.";
+  "Hi there! I'm Buddy, Shibli's AI assistant. How can I help you today? You can ask me about his skills, projects, experience, or anything else about his professional background.";
 
 type Message = {
   id: string;
@@ -182,8 +182,8 @@ export default function Chatbot() {
               <XIcon className="h-3 w-3" />
             </Button>
             <p className="text-sm">
-              Hi there! 👋 I'm ShibliBot, Muhammed Shibli's AI assistant. Chat
-              with me to learn more about his skills and experience!
+              Hi there! 👋 I'm Buddy, Muhammed Shibli's AI assistant. Chat with
+              me to learn more about his skills and experience!
             </p>
             <Button
               className="w-full mt-3"

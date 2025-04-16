@@ -1,12 +1,37 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import Image from "next/image";
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, AnimatePresence } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { DownloadIcon, CheckIcon } from "lucide-react";
 
 export default function Hero() {
   const ref = useRef(null);
   const isInView = useInView(ref, { amount: 0.3 });
+  const [isDownloading, setIsDownloading] = useState(false);
+  const [downloadComplete, setDownloadComplete] = useState(false);
+
+  const handleDownload = () => {
+    setIsDownloading(true);
+    setDownloadComplete(false);
+
+    setTimeout(() => {
+      const link = document.createElement("a");
+      link.href = "/MuhammedShibliAC.pdf";
+      link.download = "MuhammedShibliAC-CV.pdf";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      setIsDownloading(false);
+      setDownloadComplete(true);
+
+      setTimeout(() => {
+        setDownloadComplete(false);
+      }, 1500);
+    }, 3000);
+  };
 
   return (
     <section
@@ -45,6 +70,60 @@ export default function Hero() {
         <p className="text-lg md:text-xl text-muted-foreground">
           Crafting fast, responsive, and interactive web experiences.
         </p>
+
+        <motion.div whileTap={{ scale: 0.95 }}>
+          <Button
+            onClick={handleDownload}
+            className="w-40 h-10 relative overflow-hidden"
+            variant="default"
+            disabled={isDownloading || downloadComplete}
+          >
+            <AnimatePresence mode="wait">
+              {downloadComplete ? (
+                <motion.div
+                  key="complete"
+                  initial={{ scale: 0, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  exit={{ scale: 0, opacity: 0 }}
+                  className="flex items-center gap-2"
+                >
+                  <CheckIcon className="h-5 w-5" />
+                </motion.div>
+              ) : isDownloading ? (
+                <motion.div
+                  key="loading"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="flex gap-1"
+                >
+                  {[0, 1, 2].map((i) => (
+                    <motion.span
+                      key={i}
+                      className="w-1 h-1 bg-current rounded-full"
+                      animate={{ opacity: [0.3, 1] }}
+                      transition={{
+                        duration: 0.6,
+                        repeat: Infinity,
+                        delay: i * 0.2,
+                      }}
+                    />
+                  ))}
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="download"
+                  initial={{ opacity: 1 }}
+                  exit={{ opacity: 0, y: 20 }}
+                  className="flex items-center gap-2"
+                >
+                  <DownloadIcon className="h-5 w-5" />
+                  <span>Download CV</span>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </Button>
+        </motion.div>
       </motion.div>
     </section>
   );
