@@ -18,8 +18,8 @@ export default function Hero() {
 
     setTimeout(() => {
       const link = document.createElement("a");
-      link.href = "/MuhammedShibliAC.pdf";
-      link.download = "MuhammedShibliAC-CV.pdf";
+      link.href = "/Muhammad_Shibli_MERN_Developer_CV.pdf";
+      link.download = "Muhammad_Shibli_MERN_Developer_CV.pdf";
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);

@@ -26,7 +26,7 @@ Projects:
    - Optimized performance by deploying the backend on AWS and the frontend on Vercel.
    - GitHub Frontend: https://github.com/shxblx/Zephyr_frontend
    - GitHub Backend: https://github.com/shxblx/zephyr_backend
-   - Live Link: https://zephyrforgamer.vercel.app/
+   - Live Link: https://www.zephyrforgamer.xyz/ or this https://zephyrforgamer.vercel.app/
 3. GrooveStyle | E-commerce Application Live | GitHub:
    - Built a full-featured e-commerce platform using Express.js, Node.js, and MongoDB with MVC architecture.
    - Implemented session authentication, OTP verification with Nodemailer, and functionality for password recovery.
