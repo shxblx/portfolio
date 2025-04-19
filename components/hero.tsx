@@ -36,10 +36,10 @@ export default function Hero() {
   return (
     <section
       ref={ref}
-      className="flex flex-col-reverse md:flex-row items-center justify-between min-h-screen pt-16 pb-8 px-4 md:px-8 lg:px-16 md:gap-4"
+      className="flex flex-col-reverse md:flex-row items-center justify-center md:justify-between md:min-h-screen pt-16 pb-8 px-4 md:px-8 lg:px-16 md:gap-4"
     >
       <motion.div
-        className="md:w-1/2 flex justify-center order-2 md:order-1 mt-0 md:mt-0"
+        className="md:w-1/2 flex justify-center order-2 md:order-1"
         initial={{ opacity: 0, x: -50 }}
         animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
         transition={{ duration: 0.8, delay: 0.3 }}
