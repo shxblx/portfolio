@@ -163,6 +163,18 @@ export default function Projects() {
         return <SiPostman className="text-orange-600" />;
       case "Figma":
         return <SiFigma className="text-pink-500" />;
+      case "Nodemailer":
+      case "NodeCache":
+      case "Helmet.js":
+      case "Winston":
+        return <SiNodedotjs className="text-green-600" />;
+      case "Multer":
+      case "Axios":
+        return <SiJavascript className="text-yellow-400" />;
+      case "MVC":
+      case "EJS":
+      case "Session":
+        return <SiJavascript className="text-yellow-400" />;
       default:
         return <SiReact className="text-blue-400" />;
     }

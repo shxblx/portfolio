@@ -36,6 +36,7 @@ export default function Hero() {
   return (
     <section
       ref={ref}
+      id="home"
       className="flex flex-col-reverse md:flex-row items-center justify-center md:justify-between md:min-h-screen pt-16 pb-8 px-4 md:px-8 lg:px-16 md:gap-4"
     >
       <motion.div

@@ -11,6 +11,7 @@ const navItems = [
   { name: "About", href: "#about" },
   { name: "Skills", href: "#skills" },
   { name: "Projects", href: "#projects" },
+  { name: "Experience", href: "#experience" },
   { name: "Contact", href: "#contact" },
 ];
 
@@ -26,19 +27,23 @@ export default function Navbar() {
     const handleScroll = () => {
       setScrolled(window.scrollY > 10);
       const sections = document.querySelectorAll("section");
-      const scrollPosition = window.scrollY + 100;
+      const scrollPosition = window.scrollY + 64;
+
       sections.forEach((section) => {
         const sectionTop = section.offsetTop;
         const sectionHeight = section.offsetHeight;
         const sectionId = section.getAttribute("id") || "";
+        const sectionBottom = sectionTop + sectionHeight;
+
         if (
-          scrollPosition >= sectionTop &&
-          scrollPosition < sectionTop + sectionHeight
+          scrollPosition >= sectionTop - 300 &&
+          scrollPosition <= sectionBottom - 100
         ) {
           setActiveSection(sectionId);
         }
       });
     };
+
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
