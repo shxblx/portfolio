@@ -36,15 +36,15 @@ export default function Hero() {
   return (
     <section
       ref={ref}
-      className="flex flex-col-reverse md:flex-row items-center justify-between min-h-screen pt-16 pb-8 px-4 md:px-8 lg:px-16 gap-2 md:gap-4"
+      className="flex flex-col-reverse md:flex-row items-center justify-between min-h-screen pt-16 pb-8 px-4 md:px-8 lg:px-16 gap-0 md:gap-4"
     >
       <motion.div
-        className="md:w-1/2 flex justify-center order-2 md:order-1"
+        className="md:w-1/2 flex justify-center order-2 md:order-1 -mt-8 md:mt-0"
         initial={{ opacity: 0, x: -50 }}
         animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
         transition={{ duration: 0.8, delay: 0.3 }}
       >
-        <div className="relative w-72 h-[24rem] md:w-[40rem] md:h-[48rem]">
+        <div className="relative w-72 h-[20rem] md:w-[40rem] md:h-[48rem]">
           <Image
             src="/me.png"
             alt="Muhammed Shibli A C"
@@ -56,7 +56,7 @@ export default function Hero() {
       </motion.div>
 
       <motion.div
-        className="md:w-1/2 space-y-4 order-1 md:order-2 text-center md:text-left"
+        className="md:w-1/2 space-y-3 md:space-y-4 order-1 md:order-2 text-center md:text-left mb-0"
         initial={{ opacity: 0, x: 50 }}
         animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 50 }}
         transition={{ duration: 0.8 }}
@@ -104,7 +104,7 @@ export default function Hero() {
                         animate={{ opacity: [0.3, 1] }}
                         transition={{
                           duration: 0.6,
-                          repeat: Infinity,
+                          repeat: Number.POSITIVE_INFINITY,
                           delay: i * 0.2,
                         }}
                       />
