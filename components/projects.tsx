@@ -27,14 +27,18 @@ import {
   SiNginx,
   SiCloudinary,
   SiGithub,
+  SiTailwindcss,
+  SiBootstrap,
+  SiPostman,
+  SiFigma,
 } from "react-icons/si";
 import { FaAws, FaExternalLinkAlt } from "react-icons/fa";
 
 const projects = [
   {
-    title: "Enterprise Sales Dashboard",
+    title: "Meena Bazaar Sales Dashboard",
     description:
-      "Developed admin dashboard analyzing 1M+ sales records with cron jobs for SQL-MongoDB data sync and automated reporting system",
+      "Sole developer for admin dashboard managing 3M+ sales records across 100+ branches. Implemented bi-hourly SQL-MongoDB data sync with NodeCache optimization and midnight data verification cron jobs. Designed RBAC system with JWT authentication for 100+ users with branch/category-level permissions. Created dynamic reporting with MongoDB aggregation pipelines and filters for date ranges/categories/branches. Integrated Winston Rotate File logging, Helmet.js security, and Nodemailer notifications for cron jobs/credentials. Deployed on Plesk with Nginx configuration.",
     technologies: [
       "React",
       "Redux",
@@ -45,14 +49,18 @@ const projects = [
       "Plesk",
       "JWT",
       "Nginx",
+      "NodeCache",
+      "Winston",
+      "Helmet.js",
+      "Nodemailer",
     ],
-    duration: "Client: Meena Bazaar via CS Tech • 2 Months",
+    duration: "Client: Meena Bazaar via CS Tech • Feb 2024 - Apr 2024",
     links: null,
   },
   {
     title: "Zephyr | Gaming Social Platform",
     description:
-      "Built social media for gamers with real-time chat, ZepAI assistant, and community features using Socket.IO. Implemented JWT auth, OTP verification, and AWS deployment",
+      "Feature-rich social platform enabling profiles, friends, communities, and real-time chat. Implemented ZepChat QA system with hashtags and voting, Socket.IO for real-time messaging/notifications, and media sharing. Developed gaming chatbot with NLP, geolocation-based friend finder, and support ticket system. Built admin panel with analytics, using JWT+OTP auth, Redux state management, and Tailwind CSS. Integrated Cloudinary/Multer for file uploads, deployed on AWS EC2 + Vercel.",
     technologies: [
       "React",
       "Redux",
@@ -61,11 +69,14 @@ const projects = [
       "Node.js",
       "MongoDB",
       "Socket.IO",
+      "Tailwind CSS",
+      "Multer",
+      "Cloudinary",
+      "Axios",
+      "Nodemailer",
       "AWS",
       "Vercel",
       "JWT",
-      "Cloudinary",
-      "Nginx",
     ],
     links: {
       frontend: "https://github.com/shxblx/Zephyr_frontend",
@@ -76,14 +87,21 @@ const projects = [
   {
     title: "GrooveStyle | E-commerce Platform",
     description:
-      "Full-stack shopping platform with Razorpay integration, wallet system, and admin analytics. Implemented session auth, referral system, and product management",
+      "Full-stack fashion platform with session auth, OTP verification, and Razorpay/wallet payments. Implemented referral system, product returns, and admin panel with coupon/product management. Features include advanced search, wishlist, cart management, and Figma-designed UI. Deployed using MVC architecture on AWS EC2 with Postman API testing.",
     technologies: [
       "Express.js",
       "Node.js",
       "MongoDB",
       "Razorpay",
+      "Bootstrap",
+      "EJS",
+      "AWS EC2",
+      "Figma",
+      "Postman",
+      "MVC",
+      "Session",
+      "GitHub",
       "JWT",
-      "Render",
     ],
     links: {
       github: "https://github.com/shxblx/Project1",
@@ -121,6 +139,7 @@ export default function Projects() {
       case "Socket.IO":
         return <SiSocketdotio className="text-foreground" />;
       case "AWS":
+      case "AWS EC2":
         return <FaAws className="text-orange-500" />;
       case "Vercel":
         return <SiVercel className="text-foreground" />;
@@ -136,6 +155,14 @@ export default function Projects() {
         return <SiNginx className="text-green-500" />;
       case "Cloudinary":
         return <SiCloudinary className="text-blue-400" />;
+      case "Tailwind CSS":
+        return <SiTailwindcss className="text-cyan-500" />;
+      case "Bootstrap":
+        return <SiBootstrap className="text-purple-500" />;
+      case "Postman":
+        return <SiPostman className="text-orange-600" />;
+      case "Figma":
+        return <SiFigma className="text-pink-500" />;
       default:
         return <SiReact className="text-blue-400" />;
     }
@@ -247,7 +274,7 @@ export default function Projects() {
                             rel="noopener noreferrer"
                           >
                             <FaExternalLinkAlt className="h-4 w-4" />
-                            Live Demo
+                            Live
                           </a>
                         </Button>
                       )}
