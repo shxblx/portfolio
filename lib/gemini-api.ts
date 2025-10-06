@@ -57,7 +57,7 @@ export async function getGeminiResponse(
   }
   try {
     const genAI = new GoogleGenerativeAI(API_KEY);
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro-001" });
+    const model = genAI.getGenerativeModel({ model: "models/gemini-1.5-pro" });
     const recentMessages = chatHistory.slice(-3);
     const contextPrompt = `
     Your name is Buddy,You are a helpful assistant for Muhammed Shibli A C who answers questions about his portfolio, skills, experience, and projects.
